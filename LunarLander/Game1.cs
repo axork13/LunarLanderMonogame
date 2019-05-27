@@ -19,6 +19,17 @@ namespace LunarLander
         public void update()
         {
             velocity += new Vector2(0, 0.005f);
+
+            if(Math.Abs(velocity.X) >= speedMax)
+            {
+                velocity = new Vector2((velocity.X < 0 ? -speedMax : speedMax), velocity.Y);
+            }
+
+            if (Math.Abs(velocity.Y) >= speedMax)
+            {
+                velocity = new Vector2(velocity.X, (velocity.Y < 0 ? -speedMax : speedMax));
+            }
+
             position += velocity;
         }
     }
@@ -87,6 +98,20 @@ namespace LunarLander
                 lander.engineOn = false;
             }
             lander.update();
+
+            if (lander.position.X < 0)
+            {
+                lander.position = new Vector2(GraphicsDevice.Viewport.Width, lander.position.Y);
+                //lander.position = new Vector2(0, lander.position.Y);
+                //lander.velocity = new Vector2(-lander.velocity.X, lander.velocity.Y);
+            }
+
+            if (lander.position.X > GraphicsDevice.Viewport.Width)
+            {
+                lander.position = new Vector2(GraphicsDevice.Viewport.Width, lander.position.Y);
+                lander.velocity = new Vector2(-lander.velocity.X, lander.velocity.Y);
+            }
+
             base.Update(gameTime);
         }
 
