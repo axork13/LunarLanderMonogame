@@ -17,7 +17,8 @@ namespace LunarLander
 
         public void update()
         {
-
+            velocity += new Vector2(0, 0.005f);
+            position += velocity;
         }
     }
 
@@ -49,7 +50,6 @@ namespace LunarLander
 
             lander.position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
 
-
         }
 
         protected override void UnloadContent()
@@ -80,7 +80,7 @@ namespace LunarLander
             {
                 lander.engineOn = false;
             }
-
+            lander.update();
             base.Update(gameTime);
         }
 
