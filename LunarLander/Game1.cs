@@ -8,7 +8,7 @@ namespace LunarLander
     {
         public Vector2 position { get; set; } = Vector2.Zero;
         public Vector2 velocity { get; set; } = Vector2.Zero;
-        public float angle { get; set; } = 0;
+        public float angle { get; set; } = 270;
         public bool engineOn { get; set; } = false;
         public float speed { get; set; } = 0.02f;
         private float speedMax = 2f;
@@ -62,18 +62,42 @@ namespace LunarLander
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                lander.angle += 2;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                lander.angle -= 2;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                lander.engineOn = true;
+            }
+            else
+            {
+                lander.engineOn = false;
+            }
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-
             Vector2 originImg = new Vector2(lander.img.Width / 2, lander.img.Height / 2);
+            spriteBatch.Draw(lander.img, lander.position, null, null, originImg, MathHelper.ToRadians(lander.angle), null, Color.White, SpriteEffects.None, 0);
 
-            spriteBatch.Draw(lander.img, lander.position, null, null, originImg, 0, null, Color.White, SpriteEffects.None, 0);
+            if (lander.engineOn)
+            {
+                Vector2 originImgEngine = new Vector2(lander.imgEngine.Width / 2, lander.imgEngine.Height / 2);
+                spriteBatch.Draw(lander.imgEngine, lander.position, null, null, originImgEngine, MathHelper.ToRadians(lander.angle), null, Color.White, SpriteEffects.None, 0);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
