@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace LunarLander
 {
@@ -75,6 +76,11 @@ namespace LunarLander
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 lander.engineOn = true;
+
+                float angleRad = MathHelper.ToRadians(lander.angle);
+                float forceX = (float)Math.Cos(angleRad) * lander.speed;
+                float forceY = (float)Math.Sin(angleRad) * lander.speed;
+                lander.velocity += new Vector2(forceX, forceY);
             }
             else
             {
